@@ -420,70 +420,9 @@ async function carregarAgendamentosHoje() {
 
         }
     );
-/* =========================
-   BOTÕES CONCLUIR
-========================= */
-
-document
-    .querySelectorAll(".btn-concluir")
-    .forEach((botao) => {
-
-        botao.addEventListener(
-            "click",
-            async () => {
-
-                const id =
-                    botao.dataset.id;
-
-                await atualizarStatusAgendamento(
-                    id,
-                    "concluido"
-                );
-
-            }
-        );
-
-    });
-
-
-/* =========================
-   BOTÕES CANCELAR
-========================= */
-
-document
-    .querySelectorAll(".btn-cancelar")
-    .forEach((botao) => {
-
-        botao.addEventListener(
-            "click",
-            async () => {
-
-                const id =
-                    botao.dataset.id;
-
-
-                const confirmar =
-                    confirm(
-                        "Tem certeza que deseja cancelar este agendamento?"
-                    );
-
-
-                if (!confirmar) {
-                    return;
-                }
-
-
-                await atualizarStatusAgendamento(
-                    id,
-                    "cancelado"
-                );
-
-            }
-        );
-
-    });
 
 }
+
 
 function formatarDuracaoAdmin(minutos) {
 
@@ -515,57 +454,56 @@ function formatarDuracaoAdmin(minutos) {
 }
 
 /* =========================
-   BOTÕES CONCLUIR
+   AÇÕES DOS AGENDAMENTOS
 ========================= */
 
-document
-    .querySelectorAll(".btn-concluir")
-    .forEach((botao) => {
+const listaAgendamentosAdmin =
+    document.querySelector("#listaAgendamentos");
 
-        botao.addEventListener(
-            "click",
-            async () => {
+if (listaAgendamentosAdmin) {
+
+    listaAgendamentosAdmin.addEventListener(
+        "click",
+        async (event) => {
+
+            const botaoConcluir =
+                event.target.closest(
+                    ".btn-concluir"
+                );
+
+            const botaoCancelar =
+                event.target.closest(
+                    ".btn-cancelar"
+                );
+
+
+            if (botaoConcluir) {
 
                 const id =
-                    botao.dataset.id;
+                    botaoConcluir.dataset.id;
 
                 await atualizarStatusAgendamento(
                     id,
                     "concluido"
                 );
 
+                return;
             }
-        );
-
-    });
 
 
-/* =========================
-   BOTÕES CANCELAR
-========================= */
-
-document
-    .querySelectorAll(".btn-cancelar")
-    .forEach((botao) => {
-
-        botao.addEventListener(
-            "click",
-            async () => {
+            if (botaoCancelar) {
 
                 const id =
-                    botao.dataset.id;
-
+                    botaoCancelar.dataset.id;
 
                 const confirmar =
                     confirm(
                         "Tem certeza que deseja cancelar este agendamento?"
                     );
 
-
                 if (!confirmar) {
                     return;
                 }
-
 
                 await atualizarStatusAgendamento(
                     id,
@@ -573,6 +511,48 @@ document
                 );
 
             }
+
+        }
+    );
+
+}
+
+async function atualizarStatusAgendamento(
+    id,
+    novoStatus
+) {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("agendamentos")
+            .update({
+                status: novoStatus
+            })
+            .eq(
+                "id",
+                id
+            )
+            .select();
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao atualizar agendamento:",
+            error
         );
 
-    });
+        alert(
+            "Não foi possível atualizar o agendamento."
+        );
+
+        return;
+    }
+
+
+    await carregarAgendamentosHoje();
+
+}
