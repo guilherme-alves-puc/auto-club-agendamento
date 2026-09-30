@@ -375,15 +375,42 @@ async function carregarAgendamentosHoje() {
                 </div>
 
 
-                <div class="agendamento-status">
+                <div class="agendamento-acoes">
 
-                    <span
-                        class="status status-${agendamento.status}"
+    <span
+        class="status status-${agendamento.status}"
+    >
+        ${agendamento.status}
+    </span>
+
+
+    ${
+        agendamento.status === "confirmado"
+            ? `
+                <div class="botoes-agendamento">
+
+                    <button
+                        type="button"
+                        class="btn-concluir"
+                        data-id="${agendamento.id}"
                     >
-                        ${agendamento.status}
-                    </span>
+                        Concluir
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-cancelar"
+                        data-id="${agendamento.id}"
+                    >
+                        Cancelar
+                    </button>
 
                 </div>
+            `
+            : ""
+    }
+
+</div>
             `;
 
 
@@ -393,6 +420,68 @@ async function carregarAgendamentosHoje() {
 
         }
     );
+/* =========================
+   BOTÕES CONCLUIR
+========================= */
+
+document
+    .querySelectorAll(".btn-concluir")
+    .forEach((botao) => {
+
+        botao.addEventListener(
+            "click",
+            async () => {
+
+                const id =
+                    botao.dataset.id;
+
+                await atualizarStatusAgendamento(
+                    id,
+                    "concluido"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   BOTÕES CANCELAR
+========================= */
+
+document
+    .querySelectorAll(".btn-cancelar")
+    .forEach((botao) => {
+
+        botao.addEventListener(
+            "click",
+            async () => {
+
+                const id =
+                    botao.dataset.id;
+
+
+                const confirmar =
+                    confirm(
+                        "Tem certeza que deseja cancelar este agendamento?"
+                    );
+
+
+                if (!confirmar) {
+                    return;
+                }
+
+
+                await atualizarStatusAgendamento(
+                    id,
+                    "cancelado"
+                );
+
+            }
+        );
+
+    });
 
 }
 
@@ -424,3 +513,66 @@ function formatarDuracaoAdmin(minutos) {
     return `${horas}h ${restantes}min`;
 
 }
+
+/* =========================
+   BOTÕES CONCLUIR
+========================= */
+
+document
+    .querySelectorAll(".btn-concluir")
+    .forEach((botao) => {
+
+        botao.addEventListener(
+            "click",
+            async () => {
+
+                const id =
+                    botao.dataset.id;
+
+                await atualizarStatusAgendamento(
+                    id,
+                    "concluido"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   BOTÕES CANCELAR
+========================= */
+
+document
+    .querySelectorAll(".btn-cancelar")
+    .forEach((botao) => {
+
+        botao.addEventListener(
+            "click",
+            async () => {
+
+                const id =
+                    botao.dataset.id;
+
+
+                const confirmar =
+                    confirm(
+                        "Tem certeza que deseja cancelar este agendamento?"
+                    );
+
+
+                if (!confirmar) {
+                    return;
+                }
+
+
+                await atualizarStatusAgendamento(
+                    id,
+                    "cancelado"
+                );
+
+            }
+        );
+
+    });
