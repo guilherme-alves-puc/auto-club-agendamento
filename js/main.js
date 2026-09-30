@@ -24,10 +24,55 @@ const resumoServico =
 const listaDatas =
     document.querySelector("#listaDatas");
 
+const etapaHorario =
+    document.querySelector("#etapaHorario");
 
-let servicoSelecionado = null;
-let duracaoSelecionada = null;
+const btnVoltarData =
+    document.querySelector("#btnVoltarData");
+
+const btnContinuarHorario =
+    document.querySelector("#btnContinuarHorario");
+
+const listaHorarios =
+    document.querySelector("#listaHorarios");
+
+const resumoServicosHorario =
+    document.querySelector("#resumoServicosHorario");
+
+    const etapaDados =
+    document.querySelector("#etapaDados");
+
+const btnVoltarHorario =
+    document.querySelector("#btnVoltarHorario");
+
+const btnConfirmarAgendamento =
+    document.querySelector("#btnConfirmarAgendamento");
+
+const nomeCliente =
+    document.querySelector("#nomeCliente");
+
+const telefoneCliente =
+    document.querySelector("#telefoneCliente");
+
+const modeloVeiculo =
+    document.querySelector("#modeloVeiculo");
+
+
+const resumoFinalServicos =
+    document.querySelector("#resumoFinalServicos");
+
+const resumoFinalData =
+    document.querySelector("#resumoFinalData");
+
+const resumoFinalHorario =
+    document.querySelector("#resumoFinalHorario");
+
+    const corVeiculo =
+    document.querySelector("#corVeiculo");
+
+
 let dataSelecionada = null;
+let horarioSelecionado = null
 
 
 /* =========================
@@ -239,4 +284,156 @@ function atualizarProgresso(etapaAtual) {
         }
     );
 
+}
+
+btnContinuarData.addEventListener("click", () => {
+
+    etapaData.classList.remove("ativa");
+
+    etapaHorario.classList.add("ativa");
+
+    resumoServicosHorario.textContent =
+        servicosSelecionados.join(" + ");
+
+    gerarHorarios();
+
+    atualizarProgresso(3);
+});
+
+/* =========================
+   HORÁRIOS
+========================= */
+
+function gerarHorarios() {
+
+    const horarios = [
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00"
+    ];
+
+    listaHorarios.innerHTML = "";
+
+    horarioSelecionado = null;
+
+    btnContinuarHorario.disabled = true;
+
+    horarios.forEach((horario) => {
+
+        const botao =
+            document.createElement("button");
+
+        botao.type = "button";
+
+        botao.classList.add("horario-card");
+
+        botao.textContent = horario;
+
+        botao.addEventListener("click", () => {
+
+            document
+                .querySelectorAll(".horario-card")
+                .forEach((item) => {
+                    item.classList.remove("selecionado");
+                });
+
+            botao.classList.add("selecionado");
+
+            horarioSelecionado = horario;
+
+            btnContinuarHorario.disabled = false;
+
+            console.log(
+                "Horário selecionado:",
+                horarioSelecionado
+            );
+
+        });
+
+        listaHorarios.appendChild(botao);
+
+    });
+
+}
+
+
+/* =========================
+   VOLTAR PARA DATA
+========================= */
+
+btnVoltarData.addEventListener("click", () => {
+
+    etapaHorario.classList.remove("ativa");
+
+    etapaData.classList.add("ativa");
+
+    atualizarProgresso(2);
+
+});
+
+btnContinuarHorario.addEventListener("click", () => {
+
+    etapaHorario.classList.remove("ativa");
+
+    etapaDados.classList.add("ativa");
+
+    resumoFinalServicos.textContent =
+        servicosSelecionados.join(" + ");
+
+    resumoFinalData.textContent =
+        formatarData(dataSelecionada);
+
+    resumoFinalHorario.textContent =
+        horarioSelecionado;
+
+    atualizarProgresso(4);
+
+});
+
+function formatarData(data) {
+
+    const partes = data.split("-");
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+btnVoltarHorario.addEventListener("click", () => {
+
+    etapaDados.classList.remove("ativa");
+
+    etapaHorario.classList.add("ativa");
+
+    atualizarProgresso(3);
+
+});
+
+const camposObrigatorios = [
+    nomeCliente,
+    telefoneCliente,
+    modeloVeiculo,
+    corVeiculo
+];
+
+camposObrigatorios.forEach((campo) => {
+
+    campo.addEventListener("input", validarFormulario);
+
+});
+
+
+function validarFormulario() {
+
+    const formularioValido =
+        camposObrigatorios.every((campo) =>
+            campo.value.trim() !== ""
+        );
+
+    btnConfirmarAgendamento.disabled =
+        !formularioValido;
 }

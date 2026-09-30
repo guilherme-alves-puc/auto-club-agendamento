@@ -379,6 +379,19 @@ body {
 /* MOBILE */
 
 @media (max-width: 768px) {
+
+    .form-agendamento {
+    grid-template-columns: 1fr;
+}
+
+.resumo-linha {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.resumo-linha strong {
+    text-align: left;
+}
     .lista-datas {
     grid-template-columns: repeat(2, 1fr);
 }
@@ -585,4 +598,83 @@ body {
 
 .resumo-agendamento strong {
     color: var(--dourado);
+}
+
+/* FORMULÁRIO */
+
+.form-agendamento {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-form label {
+    color: var(--cinza);
+    font-size: 0.85rem;
+}
+
+.campo-form input {
+    width: 100%;
+
+    padding: 15px;
+
+    color: var(--branco);
+    background-color: #1d1d1d;
+
+    border: 1px solid #333;
+    border-radius: 8px;
+
+    outline: none;
+}
+
+.campo-form input:focus {
+    border-color: var(--dourado);
+}
+
+
+/* RESUMO FINAL */
+
+.resumo-final {
+    margin-top: 28px;
+
+    padding: 22px;
+
+    background-color: #1d1d1d;
+
+    border: 1px solid #292929;
+    border-radius: 10px;
+}
+
+.resumo-final h4 {
+    margin-bottom: 18px;
+}
+
+.resumo-linha {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.resumo-linha:last-child {
+    border-bottom: none;
+}
+
+.resumo-linha span {
+    color: var(--cinza);
+}
+
+.resumo-linha strong {
+    color: var(--dourado);
+    text-align: right;
 }

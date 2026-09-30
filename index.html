@@ -378,6 +378,101 @@
         </div>
 
     </div>
+    <!-- ETAPA 4 -->
+<div id="etapaDados" class="etapa-agendamento">
+
+    <button
+        id="btnVoltarHorario"
+        class="btn-voltar"
+    >
+        ← Voltar
+    </button>
+
+    <h3>
+        Seus dados
+    </h3>
+
+    <p class="etapa-descricao">
+        Preencha seus dados para confirmar o agendamento.
+    </p>
+
+    <div class="form-agendamento">
+
+        <div class="campo-form">
+            <label for="nomeCliente">Nome</label>
+
+            <input
+                type="text"
+                id="nomeCliente"
+                placeholder="Seu nome"
+            >
+        </div>
+
+        <div class="campo-form">
+            <label for="telefoneCliente">WhatsApp</label>
+
+            <input
+                type="tel"
+                id="telefoneCliente"
+                placeholder="(21) 99999-9999"
+            >
+        </div>
+
+        <div class="campo-form">
+            <label for="modeloVeiculo">Veículo</label>
+
+            <input
+                type="text"
+                id="modeloVeiculo"
+                placeholder="Ex: Honda Civic"
+            >
+        </div>
+        <div class="campo-form">
+    <label for="corVeiculo">Cor</label>
+
+    <input
+        type="text"
+        id="corVeiculo"
+        placeholder="Ex: Preto"
+    >
+</div>
+
+    
+
+    </div>
+
+    <div class="resumo-final">
+
+        <h4>
+            Resumo do agendamento
+        </h4>
+
+        <div class="resumo-linha">
+            <span>Serviços</span>
+            <strong id="resumoFinalServicos">-</strong>
+        </div>
+
+        <div class="resumo-linha">
+            <span>Data</span>
+            <strong id="resumoFinalData">-</strong>
+        </div>
+
+        <div class="resumo-linha">
+            <span>Horário</span>
+            <strong id="resumoFinalHorario">-</strong>
+        </div>
+
+    </div>
+
+    <button
+        id="btnConfirmarAgendamento"
+        class="btn-continuar"
+        disabled
+    >
+        Confirmar agendamento
+    </button>
+
+</div>
 
 </section>
     </main>
