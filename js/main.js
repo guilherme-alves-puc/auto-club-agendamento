@@ -10,7 +10,8 @@ const supabaseClient =
         SUPABASE_PUBLISHABLE_KEY
     );
 
-const opcoesServico = document.querySelectorAll(".opcao-servico");
+const opcoesServicoContainer =
+    document.querySelector("#opcoesServico");
 
 const btnContinuarServico =
     document.querySelector("#btnContinuarServico");
@@ -95,17 +96,110 @@ let horarioSelecionado = null
 let servicosSelecionados = [];
 let duracaoTotal = 0;
 
-opcoesServico.forEach((opcao) => {
+async function carregarServicos() {
 
-    opcao.addEventListener("click", () => {
+    const { data, error } =
+        await supabaseClient
+            .from("servicos")
+            .select("*")
+            .eq("ativo", true)
+            .order("nome");
 
-        opcao.classList.toggle("selecionado");
+    if (error) {
 
-        atualizarServicosSelecionados();
+        console.error(
+            "Erro ao carregar serviços:",
+            error
+        );
+
+        opcoesServicoContainer.innerHTML = `
+            <p>Não foi possível carregar os serviços.</p>
+        `;
+
+        return;
+    }
+
+    opcoesServicoContainer.innerHTML = "";
+
+    data.forEach((servico) => {
+
+        const botao =
+            document.createElement("button");
+
+        botao.type = "button";
+
+        botao.classList.add(
+            "opcao-servico"
+        );
+
+        botao.dataset.id =
+            servico.id;
+
+        botao.dataset.servico =
+            servico.nome;
+
+        botao.dataset.duracao =
+            servico.duracao_minutos;
+
+        botao.innerHTML = `
+            <div>
+                <strong>
+                    ${servico.nome}
+                </strong>
+
+                <p>
+                    ${servico.descricao ?? ""}
+                </p>
+            </div>
+
+            <span>
+                ${formatarDuracao(
+                    servico.duracao_minutos
+                )}
+            </span>
+        `;
+
+        botao.addEventListener(
+            "click",
+            () => {
+
+                botao.classList.toggle(
+                    "selecionado"
+                );
+
+                atualizarServicosSelecionados();
+
+            }
+        );
+
+        opcoesServicoContainer.appendChild(
+            botao
+        );
 
     });
 
-});
+}
+
+function formatarDuracao(minutos) {
+
+    if (minutos < 60) {
+        return `${minutos} min`;
+    }
+
+    const horas =
+        Math.floor(minutos / 60);
+
+    const restantes =
+        minutos % 60;
+
+    if (restantes === 0) {
+        return horas === 1
+            ? "1 hora"
+            : `${horas} horas`;
+    }
+
+    return `${horas}h ${restantes}min`;
+}
 
 
 function atualizarServicosSelecionados() {
@@ -468,4 +562,85 @@ async function testarSupabase() {
     );
 }
 
-testarSupabase();
+/* =========================
+   CONFIRMAR AGENDAMENTO
+========================= */
+
+btnConfirmarAgendamento.addEventListener(
+    "click",
+    async () => {
+
+        btnConfirmarAgendamento.disabled = true;
+        btnConfirmarAgendamento.textContent =
+            "Confirmando...";
+
+        const novoAgendamento = {
+
+            nome:
+                nomeCliente.value.trim(),
+
+            telefone:
+                telefoneCliente.value.trim(),
+
+            veiculo:
+                modeloVeiculo.value.trim(),
+
+            cor:
+                corVeiculo.value.trim(),
+
+            servicos:
+                servicosSelecionados,
+
+            data:
+                dataSelecionada,
+
+            horario:
+                horarioSelecionado,
+
+            duracao_total:
+                duracaoTotal,
+
+            status:
+                "confirmado"
+
+        };
+
+
+        const { error } =
+            await supabaseClient
+                .from("agendamentos")
+                .insert(novoAgendamento);
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao criar agendamento:",
+                error
+            );
+
+            alert(
+                "Não foi possível confirmar o agendamento. Tente novamente."
+            );
+
+            btnConfirmarAgendamento.disabled =
+                false;
+
+            btnConfirmarAgendamento.textContent =
+                "Confirmar agendamento";
+
+            return;
+        }
+
+
+        alert(
+            "Agendamento confirmado com sucesso!"
+        );
+
+        btnConfirmarAgendamento.textContent =
+            "Agendamento confirmado ✓";
+
+    }
+);
+
+carregarServicos();
