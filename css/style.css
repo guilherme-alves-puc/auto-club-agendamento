@@ -749,3 +749,21 @@ body {
     color: var(--dourado);
     text-align: right;
 }
+
+.servico-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.servico-preco {
+    color: var(--dourado);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.servico-duracao {
+    color: var(--cinza);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}

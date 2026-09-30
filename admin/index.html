@@ -61,6 +61,147 @@
         </div>
 
     </div>
+    
+    <section class="admin-card admin-servicos">
+
+    <div class="admin-card-header">
+
+        <div>
+            <h2>Serviços</h2>
+
+            <p>
+                Cadastre e gerencie os serviços oferecidos.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            id="btnNovoServico"
+            class="btn-admin-destaque"
+        >
+            + Novo serviço
+        </button>
+
+    </div>
+
+
+    <div
+        id="formServicoContainer"
+        class="form-servico-container oculto"
+    >
+
+        <h3 id="tituloFormServico">
+            Novo serviço
+        </h3>
+
+
+        <form id="formServico">
+
+            <input
+                type="hidden"
+                id="servicoId"
+            >
+
+
+            <div class="campo">
+
+                <label for="servicoNome">
+                    Nome
+                </label>
+
+                <input
+                    type="text"
+                    id="servicoNome"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="servicoDescricao">
+                    Descrição
+                </label>
+
+                <textarea
+                    id="servicoDescricao"
+                    rows="3"
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-servico-grid">
+
+                <div class="campo">
+
+                    <label for="servicoDuracao">
+                        Duração em minutos
+                    </label>
+
+                    <input
+                        type="number"
+                        id="servicoDuracao"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="servicoPreco">
+                        Preço (R$)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="servicoPreco"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-servico-acoes">
+
+                <button
+                    type="submit"
+                    class="btn-admin-destaque"
+                    id="btnSalvarServico"
+                >
+                    Salvar serviço
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-admin-secundario"
+                    id="btnCancelarServico"
+                >
+                    Cancelar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div
+        id="listaServicosAdmin"
+        class="lista-servicos-admin"
+    >
+        <p>Carregando serviços...</p>
+    </div>
+
+</section>
 
 </section>
 

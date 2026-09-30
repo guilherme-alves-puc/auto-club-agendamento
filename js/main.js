@@ -141,23 +141,30 @@ async function carregarServicos() {
         botao.dataset.duracao =
             servico.duracao_minutos;
 
-        botao.innerHTML = `
-            <div>
-                <strong>
-                    ${servico.nome}
-                </strong>
+        const precoFormatado =
+    Number(servico.preco).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
-                <p>
-                    ${servico.descricao ?? ""}
-                </p>
-            </div>
+botao.innerHTML = `
+    <div class="servico-info">
+        <strong>${servico.nome}</strong>
 
-            <span>
-                ${formatarDuracao(
-                    servico.duracao_minutos
-                )}
-            </span>
-        `;
+        <p>${servico.descricao ?? ""}</p>
+
+        <span class="servico-preco">
+            ${precoFormatado}
+        </span>
+    </div>
+
+    <span class="servico-duracao">
+        ${formatarDuracao(servico.duracao_minutos)}
+    </span>
+`;
 
         botao.addEventListener(
             "click",

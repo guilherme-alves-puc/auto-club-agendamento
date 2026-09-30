@@ -172,6 +172,8 @@ async function iniciarPainel() {
 
     await carregarAgendamentosHoje();
 
+    await carregarServicosAdmin();
+
 }
 
 /* =========================
@@ -554,5 +556,496 @@ async function atualizarStatusAgendamento(
 
 
     await carregarAgendamentosHoje();
+
+}
+/* =========================
+   SERVIÇOS ADMIN
+========================= */
+
+const listaServicosAdmin =
+    document.querySelector("#listaServicosAdmin");
+
+const btnNovoServico =
+    document.querySelector("#btnNovoServico");
+
+const formServicoContainer =
+    document.querySelector("#formServicoContainer");
+
+const formServico =
+    document.querySelector("#formServico");
+
+const servicoId =
+    document.querySelector("#servicoId");
+
+const servicoNome =
+    document.querySelector("#servicoNome");
+
+const servicoDescricao =
+    document.querySelector("#servicoDescricao");
+
+const servicoDuracao =
+    document.querySelector("#servicoDuracao");
+
+const servicoPreco =
+    document.querySelector("#servicoPreco");
+
+const tituloFormServico =
+    document.querySelector("#tituloFormServico");
+
+const btnCancelarServico =
+    document.querySelector("#btnCancelarServico");
+    async function carregarServicosAdmin() {
+
+    if (!listaServicosAdmin) {
+        return;
+    }
+
+
+    listaServicosAdmin.innerHTML =
+        "<p>Carregando serviços...</p>";
+
+
+    const {
+        data: servicos,
+        error
+    } =
+        await supabaseClient
+            .from("servicos")
+            .select("*")
+            .order(
+                "nome",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao carregar serviços:",
+            error
+        );
+
+        listaServicosAdmin.innerHTML =
+            "<p>Não foi possível carregar os serviços.</p>";
+
+        return;
+
+    }
+
+
+    listaServicosAdmin.innerHTML = "";
+
+
+    servicos.forEach(
+        (servico) => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.classList.add(
+                "servico-admin-card"
+            );
+
+
+            if (!servico.ativo) {
+
+                card.classList.add(
+                    "servico-inativo"
+                );
+
+            }
+
+
+            const preco =
+                Number(
+                    servico.preco
+                ).toLocaleString(
+                    "pt-BR",
+                    {
+                        style: "currency",
+                        currency: "BRL"
+                    }
+                );
+
+
+            card.innerHTML = `
+
+                <div class="servico-admin-info">
+
+                    <h3>
+                        ${servico.nome}
+                    </h3>
+
+                    <p>
+                        ${servico.descricao ?? ""}
+                    </p>
+
+                    <div class="servico-admin-meta">
+
+                        <span>
+                            ⏱ ${formatarDuracaoAdmin(
+                                servico.duracao_minutos
+                            )}
+                        </span>
+
+                        <span>
+                            ${preco}
+                        </span>
+
+                        <span>
+                            ${
+                                servico.ativo
+                                    ? "Ativo"
+                                    : "Inativo"
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="servico-admin-acoes">
+
+                    <button
+                        type="button"
+                        class="btn-editar-servico"
+                        data-id="${servico.id}"
+                    >
+                        Editar
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="
+                            btn-toggle-servico
+                            ${
+                                servico.ativo
+                                    ? "btn-desativar"
+                                    : "btn-ativar"
+                            }
+                        "
+                        data-id="${servico.id}"
+                        data-ativo="${servico.ativo}"
+                    >
+                        ${
+                            servico.ativo
+                                ? "Desativar"
+                                : "Ativar"
+                        }
+                    </button>
+
+                </div>
+
+            `;
+
+
+            listaServicosAdmin.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+if (btnNovoServico) {
+
+    btnNovoServico.addEventListener(
+        "click",
+        () => {
+
+            limparFormularioServico();
+
+            tituloFormServico.textContent =
+                "Novo serviço";
+
+            formServicoContainer.classList.remove(
+                "oculto"
+            );
+
+        }
+    );
+
+if (btnCancelarServico) {
+
+    btnCancelarServico.addEventListener(
+        "click",
+        () => {
+
+            formServicoContainer.classList.add(
+                "oculto"
+            );
+
+            limparFormularioServico();
+
+        }
+    );
+
+}}
+if (formServico) {
+
+    formServico.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+
+            const dadosServico = {
+
+                nome:
+                    servicoNome.value.trim(),
+
+                descricao:
+                    servicoDescricao.value.trim(),
+
+                duracao_minutos:
+                    Number(
+                        servicoDuracao.value
+                    ),
+
+                preco:
+                    Number(
+                        servicoPreco.value
+                    )
+
+            };
+
+
+            let error;
+
+
+            /* EDITAR */
+
+            if (servicoId.value) {
+
+                const resultado =
+                    await supabaseClient
+                        .from("servicos")
+                        .update(
+                            dadosServico
+                        )
+                        .eq(
+                            "id",
+                            servicoId.value
+                        );
+
+                error =
+                    resultado.error;
+
+            }
+
+
+            /* CADASTRAR */
+
+            else {
+
+                const resultado =
+                    await supabaseClient
+                        .from("servicos")
+                        .insert({
+                            ...dadosServico,
+                            ativo: true
+                        });
+
+                error =
+                    resultado.error;
+
+            }
+
+
+            if (error) {
+
+                console.error(
+                    "Erro ao salvar serviço:",
+                    error
+                );
+
+                alert(
+                    "Não foi possível salvar o serviço."
+                );
+
+                return;
+
+            }
+
+
+            formServicoContainer.classList.add(
+                "oculto"
+            );
+
+            limparFormularioServico();
+
+            await carregarServicosAdmin();
+
+        }
+    );
+
+}
+if (listaServicosAdmin) {
+
+    listaServicosAdmin.addEventListener(
+        "click",
+        async (event) => {
+
+
+            const btnEditar =
+                event.target.closest(
+                    ".btn-editar-servico"
+                );
+
+
+            const btnToggle =
+                event.target.closest(
+                    ".btn-toggle-servico"
+                );
+
+
+            /* =========================
+               EDITAR
+            ========================= */
+
+            if (btnEditar) {
+
+                await abrirEdicaoServico(
+                    btnEditar.dataset.id
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               ATIVAR / DESATIVAR
+            ========================= */
+
+            if (btnToggle) {
+
+                const id =
+                    btnToggle.dataset.id;
+
+
+                const estaAtivo =
+                    btnToggle.dataset.ativo
+                        === "true";
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from("servicos")
+                        .update({
+                            ativo:
+                                !estaAtivo
+                        })
+                        .eq(
+                            "id",
+                            id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "Erro ao alterar serviço:",
+                        error
+                    );
+
+                    alert(
+                        "Não foi possível alterar o serviço."
+                    );
+
+                    return;
+
+                }
+
+
+                await carregarServicosAdmin();
+
+            }
+
+        }
+    );
+
+}
+async function abrirEdicaoServico(id) {
+
+    const {
+        data: servico,
+        error
+    } =
+        await supabaseClient
+            .from("servicos")
+            .select("*")
+            .eq(
+                "id",
+                id
+            )
+            .single();
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao buscar serviço:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    servicoId.value =
+        servico.id;
+
+    servicoNome.value =
+        servico.nome;
+
+    servicoDescricao.value =
+        servico.descricao ?? "";
+
+    servicoDuracao.value =
+        servico.duracao_minutos;
+
+    servicoPreco.value =
+        servico.preco;
+
+
+    tituloFormServico.textContent =
+        "Editar serviço";
+
+
+    formServicoContainer.classList.remove(
+        "oculto"
+    );
+
+
+    formServicoContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+function limparFormularioServico() {
+
+    servicoId.value = "";
+
+    servicoNome.value = "";
+
+    servicoDescricao.value = "";
+
+    servicoDuracao.value = "";
+
+    servicoPreco.value = "";
 
 }
