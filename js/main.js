@@ -392,20 +392,6 @@ function atualizarProgresso(etapaAtual) {
 
 }
 
-btnContinuarData.addEventListener("click", () => {
-
-    etapaData.classList.remove("ativa");
-
-    etapaHorario.classList.add("ativa");
-
-    resumoServicosHorario.textContent =
-        servicosSelecionados.join(" + ");
-
-    gerarHorarios();
-
-    atualizarProgresso(3);
-});
-
 /* =========================
    IR PARA HORÁRIOS
 ========================= */
@@ -794,23 +780,6 @@ function validarFormulario() {
         !formularioValido;
 }
 
-async function testarSupabase() {
-
-    const { data, error } =
-        await supabaseClient
-            .from("servicos")
-            .select("*");
-
-    if (error) {
-        console.error("Erro Supabase:", error);
-        return;
-    }
-
-    console.log(
-        "Serviços vindos do Supabase:",
-        data
-    );
-}
 
 /* =========================
    CONFIRMAR AGENDAMENTO
@@ -821,86 +790,123 @@ btnConfirmarAgendamento.addEventListener(
     async () => {
 
         btnConfirmarAgendamento.disabled = true;
+
         btnConfirmarAgendamento.textContent =
             "Confirmando...";
 
+
         const {
-    data: agendamentoCriado,
-    error
-} =
-    await supabaseClient.rpc(
-        "criar_agendamento_seguro",
-        {
+            data: agendamentoCriado,
+            error
+        } =
+            await supabaseClient.rpc(
+                "criar_agendamento_seguro",
+                {
 
-            p_nome:
-                nomeCliente.value.trim(),
+                    p_nome:
+                        nomeCliente.value.trim(),
 
-            p_telefone:
-                telefoneCliente.value.trim(),
+                    p_telefone:
+                        telefoneCliente.value.trim(),
 
-            p_veiculo:
-                modeloVeiculo.value.trim(),
+                    p_veiculo:
+                        modeloVeiculo.value.trim(),
 
-            p_cor:
-                corVeiculo.value.trim(),
+                    p_cor:
+                        corVeiculo.value.trim(),
 
-            p_servicos:
-                servicosSelecionados,
+                    p_servicos:
+                        servicosSelecionados,
 
-            p_data:
-                dataSelecionada,
+                    p_data:
+                        dataSelecionada,
 
-            p_horario:
-                horarioSelecionado
+                    p_horario:
+                        horarioSelecionado
 
-        }
-    );
+                }
+            );
 
+
+        /* =========================
+           ERRO
+        ========================= */
 
         if (error) {
 
-    console.error(
-        "Erro ao criar agendamento:",
-        error
-    );
+            console.error(
+                "Erro ao criar agendamento:",
+                error
+            );
 
 
-    if (
-        error.message.includes(
-            "não está mais disponível"
-        )
-    ) {
+            if (
+                error.message.includes(
+                    "não está mais disponível"
+                )
+            ) {
 
-        alert(
-            "Esse horário acabou de ser reservado por outro cliente. Escolha outro horário."
+                alert(
+                    "Esse horário acabou de ser reservado por outro cliente. Escolha outro horário."
+                );
+
+                etapaDados.classList.remove(
+                    "ativa"
+                );
+
+                etapaHorario.classList.add(
+                    "ativa"
+                );
+
+                atualizarProgresso(3);
+
+                await gerarHorarios();
+
+            } else {
+
+                alert(
+                    error.message ||
+                    "Não foi possível confirmar o agendamento."
+                );
+
+            }
+
+
+            btnConfirmarAgendamento.disabled =
+                false;
+
+            btnConfirmarAgendamento.textContent =
+                "Confirmar agendamento";
+
+            return;
+        }
+
+
+        /* =========================
+           SUCESSO
+        ========================= */
+
+        console.log(
+            "Agendamento criado:",
+            agendamentoCriado
         );
 
-        etapaDados.classList.remove("ativa");
-
-        etapaHorario.classList.add("ativa");
-
-        atualizarProgresso(3);
-
-        await gerarHorarios();
-
-    } else {
-
         alert(
-            error.message ||
-            "Não foi possível confirmar o agendamento."
+            "Agendamento confirmado com sucesso!"
         );
+
+        btnConfirmarAgendamento.textContent =
+            "Agendamento confirmado ✓";
+
+        btnConfirmarAgendamento.disabled =
+            true;
 
     }
-
-
-    btnConfirmarAgendamento.disabled =
-        false;
-
-    btnConfirmarAgendamento.textContent =
-        "Confirmar agendamento";
-
-    return;
-}
 );
+
+
+/* =========================
+   CARREGAR SERVIÇOS
+========================= */
 
 carregarServicos();
