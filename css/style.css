@@ -379,6 +379,9 @@ body {
 /* MOBILE */
 
 @media (max-width: 768px) {
+    .lista-datas {
+    grid-template-columns: repeat(2, 1fr);
+}
 
     .servicos-grid {
         grid-template-columns: 1fr;
@@ -415,4 +418,171 @@ body {
 
     padding: 18px;
 }
+}
+
+/* ETAPAS */
+
+.etapa-agendamento {
+    display: none;
+}
+
+.etapa-agendamento.ativa {
+    display: block;
+}
+
+.etapa-descricao {
+    margin-top: -12px;
+    margin-bottom: 28px;
+
+    color: var(--cinza);
+
+    line-height: 1.6;
+}
+
+
+/* VOLTAR */
+
+.btn-voltar {
+    margin-bottom: 25px;
+
+    padding: 0;
+
+    color: var(--cinza);
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+}
+
+.btn-voltar:hover {
+    color: var(--branco);
+}
+
+
+/* DATA */
+
+.campo-data {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.campo-data label {
+    color: var(--cinza);
+
+    font-size: 0.85rem;
+}
+
+.campo-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.campo-data label {
+    color: var(--cinza);
+    font-size: 0.85rem;
+}
+
+.data-box {
+    width: 100%;
+}
+
+/* LISTA DE DATAS */
+
+.lista-datas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.data-card {
+    padding: 16px 12px;
+
+    background-color: #1d1d1d;
+    color: var(--branco);
+
+    border: 1px solid #303030;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    text-align: center;
+}
+
+.data-card:hover {
+    border-color: #666;
+    transform: translateY(-2px);
+}
+
+.data-card.selecionada {
+    background-color: #201d13;
+    border-color: var(--dourado);
+    color: var(--dourado);
+}
+
+.data-card small {
+    display: block;
+    margin-bottom: 6px;
+
+    color: var(--cinza);
+
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-card.selecionada small {
+    color: #d8c27a;
+}
+
+.data-card strong {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.data-card span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+
+/* RESUMO */
+
+.resumo-agendamento {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 25px;
+
+    padding: 18px;
+
+    background-color: #1d1d1d;
+
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.resumo-agendamento span {
+    color: var(--cinza);
+
+    font-size: 0.75rem;
+
+    text-transform: uppercase;
+}
+
+.resumo-agendamento strong {
+    color: var(--dourado);
 }
