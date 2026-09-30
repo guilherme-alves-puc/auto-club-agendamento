@@ -407,67 +407,317 @@ btnContinuarData.addEventListener("click", () => {
 });
 
 /* =========================
-   HORÁRIOS
+   IR PARA HORÁRIOS
 ========================= */
 
-function gerarHorarios() {
+btnContinuarData.addEventListener("click", async () => {
 
-    const horarios = [
-        "08:00",
-        "09:00",
-        "10:00",
-        "11:00",
-        "13:00",
-        "14:00",
-        "15:00",
-        "16:00",
-        "17:00"
-    ];
+    etapaData.classList.remove("ativa");
 
-    listaHorarios.innerHTML = "";
+    etapaHorario.classList.add("ativa");
+
+    resumoServicosHorario.textContent =
+        servicosSelecionados.join(" + ");
+
+    atualizarProgresso(3);
+
+    await gerarHorarios();
+
+});
+
+
+/* =========================
+   GERAR HORÁRIOS
+========================= */
+
+async function gerarHorarios() {
+
+    listaHorarios.innerHTML =
+        "<p>Carregando horários...</p>";
 
     horarioSelecionado = null;
 
     btnContinuarHorario.disabled = true;
 
-    horarios.forEach((horario) => {
+
+    /* =========================
+       DESCOBRIR DIA DA SEMANA
+    ========================= */
+
+    const data =
+        new Date(`${dataSelecionada}T12:00:00`);
+
+    const diaSemanaJs =
+        data.getDay();
+
+    /*
+        JavaScript:
+        0 domingo
+        1 segunda
+        ...
+        6 sábado
+
+        Nosso banco:
+        0 segunda
+        ...
+        6 domingo
+    */
+
+    const diaSemana =
+        diaSemanaJs === 0
+            ? 6
+            : diaSemanaJs - 1;
+
+
+    /* =========================
+       HORÁRIO DA LOJA
+    ========================= */
+
+    const {
+        data: funcionamento,
+        error: erroFuncionamento
+    } =
+        await supabaseClient
+            .from("horarios_funcionamento")
+            .select("*")
+            .eq("dia_semana", diaSemana)
+            .single();
+
+
+    if (erroFuncionamento) {
+
+        console.error(
+            "Erro ao buscar funcionamento:",
+            erroFuncionamento
+        );
+
+        listaHorarios.innerHTML =
+            "<p>Não foi possível carregar os horários.</p>";
+
+        return;
+    }
+
+
+    if (!funcionamento.aberto) {
+
+        listaHorarios.innerHTML =
+            "<p>A loja não abre nesta data.</p>";
+
+        return;
+    }
+
+
+    /* =========================
+       AGENDAMENTOS DO DIA
+    ========================= */
+
+    const {
+        data: agendamentosExistentes,
+        error: erroAgendamentos
+    } =
+        await supabaseClient
+            .from("agendamentos")
+            .select(
+                "horario, duracao_total, status"
+            )
+            .eq(
+                "data",
+                dataSelecionada
+            );
+
+
+    if (erroAgendamentos) {
+
+        console.error(
+            "Erro ao buscar agendamentos:",
+            erroAgendamentos
+        );
+
+        listaHorarios.innerHTML =
+            "<p>Não foi possível verificar a disponibilidade.</p>";
+
+        return;
+    }
+
+
+    /* Remove cancelados */
+
+    const agendamentosAtivos =
+        agendamentosExistentes.filter(
+            (agendamento) =>
+                agendamento.status !== "cancelado"
+        );
+
+
+    /* =========================
+       CONVERTER FUNCIONAMENTO
+    ========================= */
+
+    const horaAbertura =
+        converterHoraParaMinutos(
+            funcionamento.hora_abertura
+        );
+
+    const horaFechamento =
+        converterHoraParaMinutos(
+            funcionamento.hora_fechamento
+        );
+
+
+    listaHorarios.innerHTML = "";
+
+
+    /* =========================
+       GERAR OPÇÕES
+    ========================= */
+
+    for (
+        let inicio = horaAbertura;
+        inicio + duracaoTotal <= horaFechamento;
+        inicio += 60
+    ) {
+
+        const fim =
+            inicio + duracaoTotal;
+
+
+        /*
+            Verifica se o novo intervalo
+            bate com algum agendamento existente.
+        */
+
+        const existeConflito =
+            agendamentosAtivos.some(
+                (agendamento) => {
+
+                    const inicioExistente =
+                        converterHoraParaMinutos(
+                            agendamento.horario
+                        );
+
+                    const fimExistente =
+                        inicioExistente +
+                        agendamento.duracao_total;
+
+
+                    return (
+                        inicio < fimExistente &&
+                        fim > inicioExistente
+                    );
+
+                }
+            );
+
+
+        /*
+            Se existe conflito,
+            não mostramos esse horário.
+        */
+
+        if (existeConflito) {
+            continue;
+        }
+
+
+        const horario =
+            converterMinutosParaHora(
+                inicio
+            );
+
 
         const botao =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         botao.type = "button";
 
-        botao.classList.add("horario-card");
+        botao.classList.add(
+            "horario-card"
+        );
 
-        botao.textContent = horario;
+        botao.textContent =
+            horario;
 
-        botao.addEventListener("click", () => {
 
-            document
-                .querySelectorAll(".horario-card")
-                .forEach((item) => {
-                    item.classList.remove("selecionado");
-                });
+        botao.addEventListener(
+            "click",
+            () => {
 
-            botao.classList.add("selecionado");
+                document
+                    .querySelectorAll(
+                        ".horario-card"
+                    )
+                    .forEach(
+                        (item) => {
 
-            horarioSelecionado = horario;
+                            item.classList.remove(
+                                "selecionado"
+                            );
 
-            btnContinuarHorario.disabled = false;
+                        }
+                    );
 
-            console.log(
-                "Horário selecionado:",
-                horarioSelecionado
-            );
 
-        });
+                botao.classList.add(
+                    "selecionado"
+                );
 
-        listaHorarios.appendChild(botao);
+                horarioSelecionado =
+                    horario;
 
-    });
+                btnContinuarHorario.disabled =
+                    false;
+
+            }
+        );
+
+
+        listaHorarios.appendChild(
+            botao
+        );
+
+    }
+
+
+    /* =========================
+       NENHUM HORÁRIO
+    ========================= */
+
+    if (
+        listaHorarios.children.length === 0
+    ) {
+
+        listaHorarios.innerHTML =
+            "<p>Não há horários disponíveis para esta data.</p>";
+
+    }
 
 }
 
+function converterHoraParaMinutos(hora) {
+
+    const [horas, minutos] =
+        hora.split(":").map(Number);
+
+    return horas * 60 + minutos;
+}
+
+
+function converterMinutosParaHora(totalMinutos) {
+
+    const horas =
+        Math.floor(totalMinutos / 60);
+
+    const minutos =
+        totalMinutos % 60;
+
+    return (
+        `${String(horas).padStart(2, "0")}:` +
+        `${String(minutos).padStart(2, "0")}`
+    );
+
+}
 
 /* =========================
    VOLTAR PARA DATA
@@ -574,73 +824,83 @@ btnConfirmarAgendamento.addEventListener(
         btnConfirmarAgendamento.textContent =
             "Confirmando...";
 
-        const novoAgendamento = {
+        const {
+    data: agendamentoCriado,
+    error
+} =
+    await supabaseClient.rpc(
+        "criar_agendamento_seguro",
+        {
 
-            nome:
+            p_nome:
                 nomeCliente.value.trim(),
 
-            telefone:
+            p_telefone:
                 telefoneCliente.value.trim(),
 
-            veiculo:
+            p_veiculo:
                 modeloVeiculo.value.trim(),
 
-            cor:
+            p_cor:
                 corVeiculo.value.trim(),
 
-            servicos:
+            p_servicos:
                 servicosSelecionados,
 
-            data:
+            p_data:
                 dataSelecionada,
 
-            horario:
-                horarioSelecionado,
+            p_horario:
+                horarioSelecionado
 
-            duracao_total:
-                duracaoTotal,
-
-            status:
-                "confirmado"
-
-        };
-
-
-        const { error } =
-            await supabaseClient
-                .from("agendamentos")
-                .insert(novoAgendamento);
+        }
+    );
 
 
         if (error) {
 
-            console.error(
-                "Erro ao criar agendamento:",
-                error
-            );
+    console.error(
+        "Erro ao criar agendamento:",
+        error
+    );
 
-            alert(
-                "Não foi possível confirmar o agendamento. Tente novamente."
-            );
 
-            btnConfirmarAgendamento.disabled =
-                false;
-
-            btnConfirmarAgendamento.textContent =
-                "Confirmar agendamento";
-
-            return;
-        }
-
+    if (
+        error.message.includes(
+            "não está mais disponível"
+        )
+    ) {
 
         alert(
-            "Agendamento confirmado com sucesso!"
+            "Esse horário acabou de ser reservado por outro cliente. Escolha outro horário."
         );
 
-        btnConfirmarAgendamento.textContent =
-            "Agendamento confirmado ✓";
+        etapaDados.classList.remove("ativa");
+
+        etapaHorario.classList.add("ativa");
+
+        atualizarProgresso(3);
+
+        await gerarHorarios();
+
+    } else {
+
+        alert(
+            error.message ||
+            "Não foi possível confirmar o agendamento."
+        );
 
     }
+
+
+    btnConfirmarAgendamento.disabled =
+        false;
+
+    btnConfirmarAgendamento.textContent =
+        "Confirmar agendamento";
+
+    return;
+}
 );
 
 carregarServicos();
