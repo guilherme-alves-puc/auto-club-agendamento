@@ -161,6 +161,221 @@ body {
     font-size: 0.9rem;
 }
 
+/* AGENDAMENTO */
+
+.agendamento {
+    padding: 100px 0;
+
+    background-color: var(--preto);
+}
+
+.agendamento-header {
+    max-width: 600px;
+}
+
+.agendamento-header > span {
+    color: var(--dourado);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.agendamento-header h2 {
+    margin-top: 10px;
+
+    font-size: 2.5rem;
+}
+
+.agendamento-header p {
+    margin-top: 12px;
+
+    color: var(--cinza);
+
+    line-height: 1.6;
+}
+
+
+/* PROGRESSO */
+
+.agendamento-progresso {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    max-width: 700px;
+
+    margin: 50px auto;
+}
+
+.progresso-item {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #666;
+}
+
+.progresso-item span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #444;
+    border-radius: 50%;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.progresso-item p {
+    font-size: 0.75rem;
+}
+
+.progresso-item.ativo {
+    color: var(--dourado);
+}
+
+.progresso-item.ativo span {
+    border-color: var(--dourado);
+}
+
+.progresso-linha {
+    width: 80px;
+    height: 1px;
+
+    margin: 0 10px 25px;
+
+    background-color: #333;
+}
+
+
+/* BOX */
+
+.agendamento-box {
+    max-width: 760px;
+
+    margin: 0 auto;
+
+    padding: 40px;
+
+    background-color: #151515;
+
+    border: 1px solid #292929;
+    border-radius: 16px;
+}
+
+.agendamento-box h3 {
+    margin-bottom: 25px;
+
+    font-size: 1.4rem;
+}
+
+
+/* SERVIÇOS */
+
+.opcoes-servico {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.opcao-servico {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 22px;
+
+    color: var(--branco);
+    background-color: #1d1d1d;
+
+    border: 1px solid #303030;
+    border-radius: 10px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.opcao-servico:hover {
+    border-color: #666;
+}
+
+.opcao-servico.selecionado {
+    border-color: var(--dourado);
+
+    background-color: #201d13;
+}
+
+.opcao-servico strong {
+    font-size: 1rem;
+}
+
+.opcao-servico p {
+    margin-top: 7px;
+
+    color: var(--cinza);
+
+    font-size: 0.85rem;
+
+    line-height: 1.5;
+}
+
+.opcao-servico > span {
+    color: var(--dourado);
+
+    font-size: 0.85rem;
+
+    white-space: nowrap;
+}
+
+
+/* CONTINUAR */
+
+.btn-continuar {
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding: 16px;
+
+    background-color: var(--dourado);
+    color: var(--preto);
+
+    border: none;
+    border-radius: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.btn-continuar:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
 /* MOBILE */
 
 @media (max-width: 768px) {
@@ -172,5 +387,32 @@ body {
     .hero h1 {
         letter-spacing: -2px;
     }
+.agendamento {
+    padding: 70px 0;
+}
 
+.agendamento-box {
+    padding: 24px;
+}
+
+.agendamento-progresso {
+    margin: 40px auto;
+}
+
+.progresso-linha {
+    width: 30px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.progresso-item p {
+    font-size: 0.65rem;
+}
+
+.opcao-servico {
+    align-items: flex-start;
+
+    padding: 18px;
+}
 }
