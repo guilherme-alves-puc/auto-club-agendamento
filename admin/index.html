@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Admin | Auto Club</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <main class="admin-painel">
+
+        <header class="admin-header">
+
+            <div>
+                <h1>Painel Administrativo</h1>
+                <p>Auto Club Estética Automotiva</p>
+            </div>
+
+            <button
+                type="button"
+                id="btnLogout"
+            >
+                Sair
+            </button>
+
+        </header>
+
+
+        <section class="admin-conteudo">
+
+    <div class="admin-card">
+
+        <div class="admin-card-header">
+
+            <div>
+                <h2>Agendamentos de hoje</h2>
+
+                <p id="dataHoje"></p>
+            </div>
+
+            <span
+                id="totalAgendamentos"
+                class="contador-agendamentos"
+            >
+                0
+            </span>
+
+        </div>
+
+
+        <div
+            id="listaAgendamentos"
+            class="lista-agendamentos"
+        >
+            <p>Carregando agendamentos...</p>
+        </div>
+
+    </div>
+
+</section>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin.js"></script>
+
+</body>
+
+</html>

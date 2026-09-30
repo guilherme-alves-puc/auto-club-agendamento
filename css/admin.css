@@ -142,3 +142,268 @@ body {
     color:
         #ff6b6b;
 }
+
+.admin-painel {
+    min-height: 100vh;
+    padding: 32px;
+}
+
+.admin-header {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 24px;
+
+    border-bottom:
+        1px solid #2c2c2c;
+}
+
+.admin-header h1 {
+    color:
+        var(--dourado);
+
+    margin-bottom: 6px;
+}
+
+.admin-header p {
+    color:
+        var(--cinza);
+}
+
+#btnLogout {
+    padding: 10px 20px;
+
+    border:
+        1px solid #444;
+
+    border-radius: 8px;
+
+    background:
+        transparent;
+
+    color:
+        var(--branco);
+
+    cursor: pointer;
+}
+
+#btnLogout:hover {
+    border-color:
+        var(--dourado);
+
+    color:
+        var(--dourado);
+}
+
+.admin-conteudo {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-card {
+    padding: 28px;
+
+    background:
+        var(--grafite);
+
+    border:
+        1px solid #303030;
+
+    border-radius: 14px;
+}
+
+.admin-card h2 {
+    margin-bottom: 10px;
+}
+
+.admin-card p {
+    color:
+        var(--cinza);
+}
+
+.admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+.admin-card-header h2 {
+    margin-bottom: 6px;
+}
+
+.admin-card-header p {
+    color: var(--cinza);
+}
+
+.contador-agendamentos {
+    min-width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--dourado);
+
+    color: #000;
+
+    font-weight: 700;
+}
+
+.lista-agendamentos {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.agendamento-card {
+    display: grid;
+
+    grid-template-columns:
+        100px 1fr auto;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 20px;
+
+    background: #101010;
+
+    border:
+        1px solid #292929;
+
+    border-radius: 12px;
+}
+
+.agendamento-horario {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.agendamento-horario strong {
+    color: var(--dourado);
+
+    font-size: 1.35rem;
+}
+
+.agendamento-horario span {
+    color: var(--cinza);
+
+    font-size: 0.85rem;
+}
+
+.agendamento-info h3 {
+    margin-bottom: 5px;
+}
+
+.agendamento-info > p {
+    color: #d0d0d0;
+
+    margin-bottom: 10px;
+}
+
+.agendamento-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    color: var(--cinza);
+
+    font-size: 0.9rem;
+}
+
+.status {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 0.8rem;
+
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+.status-confirmado {
+    color: var(--dourado);
+
+    border:
+        1px solid var(--dourado);
+
+    background:
+        #201d13;
+}
+
+.status-cancelado {
+    color: #ff7373;
+
+    border:
+        1px solid #8f3838;
+
+    background:
+        #291313;
+}
+
+.status-concluido {
+    color: #8fdb9a;
+
+    border:
+        1px solid #35723e;
+
+    background:
+        #102315;
+}
+
+.sem-agendamentos {
+    padding: 40px;
+
+    text-align: center;
+
+    border:
+        1px dashed #333;
+
+    border-radius: 12px;
+}
+
+.sem-agendamentos strong {
+    display: block;
+
+    margin-bottom: 8px;
+}
+
+.sem-agendamentos p {
+    color:
+        var(--cinza);
+}
+
+
+@media (max-width: 700px) {
+
+    .admin-painel {
+        padding: 20px;
+    }
+
+    .agendamento-card {
+        grid-template-columns: 1fr;
+    }
+
+    .agendamento-status {
+        justify-self: start;
+    }
+
+}
