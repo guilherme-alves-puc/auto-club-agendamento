@@ -2,40 +2,78 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Auto Club Estética Automotiva</title>
 
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="./css/reset.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    >
+
 </head>
+
 
 <body>
 
+    <!-- =========================
+         HEADER
+    ========================== -->
+
     <header class="header">
+
         <div class="container header-container">
 
-            <a href="./index.html" class="logo">
+            <a
+                href="./index.html"
+                class="logo"
+            >
                 AUTO CLUB
             </a>
 
-            <a href="#agendamento" class="btn-header">
+            <a
+                href="#agendamento"
+                class="btn-header"
+            >
                 Agendar horário
             </a>
 
         </div>
+
     </header>
 
+
     <main>
+
+        <!-- =========================
+             HERO
+        ========================== -->
 
         <section class="hero">
 
@@ -54,7 +92,10 @@
                     e faça seu agendamento online.
                 </p>
 
-                <a href="#agendamento" class="btn-primary">
+                <a
+                    href="#agendamento"
+                    class="btn-primary"
+                >
                     Agendar agora
                 </a>
 
@@ -62,48 +103,78 @@
 
         </section>
 
+
+        <!-- =========================
+             SERVIÇOS
+        ========================== -->
+
         <section class="servicos">
 
             <div class="container">
 
                 <div class="section-header">
-                    <span>Serviços</span>
+
+                    <span>
+                        Serviços
+                    </span>
 
                     <h2>
                         Cuidados para o seu veículo
                     </h2>
+
                 </div>
+
 
                 <div class="servicos-grid">
 
                     <article class="servico-card">
-                        <h3>Lavagem Premium</h3>
+
+                        <h3>
+                            Lavagem Premium
+                        </h3>
 
                         <p>
                             Lavagem detalhada externa e acabamento premium.
                         </p>
 
-                        <span>60 min</span>
+                        <span>
+                            60 min
+                        </span>
+
                     </article>
 
+
                     <article class="servico-card">
-                        <h3>Higienização Interna</h3>
+
+                        <h3>
+                            Higienização Interna
+                        </h3>
 
                         <p>
                             Limpeza profunda de bancos, carpetes e interior.
                         </p>
 
-                        <span>2 horas</span>
+                        <span>
+                            2 horas
+                        </span>
+
                     </article>
 
+
                     <article class="servico-card">
-                        <h3>Polimento</h3>
+
+                        <h3>
+                            Polimento
+                        </h3>
 
                         <p>
                             Correção de pintura e recuperação do brilho.
                         </p>
 
-                        <span>4 horas</span>
+                        <span>
+                            4 horas
+                        </span>
+
                     </article>
 
                 </div>
@@ -111,371 +182,555 @@
             </div>
 
         </section>
-        <section id="agendamento" class="agendamento">
-
-    <div class="container">
-
-        <div class="agendamento-header">
-
-            <span>Agendamento online</span>
-
-            <h2>
-                Agende seu horário
-            </h2>
-
-            <p>
-                Escolha os serviços desejados para continuar.
-            </p>
-
-        </div>
 
 
-        <div class="agendamento-progresso">
+        <!-- =========================
+             AGENDAMENTO
+        ========================== -->
 
-            <div class="progresso-item ativo">
-                <span>1</span>
-                <p>Serviço</p>
-            </div>
+        <section
+            id="agendamento"
+            class="agendamento"
+        >
 
-            <div class="progresso-linha"></div>
-
-            <div class="progresso-item">
-                <span>2</span>
-                <p>Data</p>
-            </div>
-
-            <div class="progresso-linha"></div>
-
-            <div class="progresso-item">
-                <span>3</span>
-                <p>Horário</p>
-            </div>
-
-            <div class="progresso-linha"></div>
-
-            <div class="progresso-item">
-                <span>4</span>
-                <p>Dados</p>
-            </div>
-
-        </div>
+            <div class="container">
 
 
-        <div class="agendamento-box">
+                <!-- CABEÇALHO -->
 
-            <!-- ETAPA 1 -->
-            <div
-                id="etapaServico"
-                class="etapa-agendamento ativa"
-            >
+                <div class="agendamento-header">
 
-                <h3>
-                    Quais serviços você deseja?
-                </h3>
+                    <span>
+                        Agendamento online
+                    </span>
 
-                <div class="opcoes-servico">
+                    <h2>
+                        Agende seu horário
+                    </h2>
 
-                    <button
-                        class="opcao-servico"
-                        data-servico="Lavagem Premium"
-                        data-duracao="60"
-                    >
-
-                        <div>
-                            <strong>
-                                Lavagem Premium
-                            </strong>
-
-                            <p>
-                                Lavagem externa detalhada e acabamento premium.
-                            </p>
-                        </div>
-
-                        <span>
-                            60 min
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        class="opcao-servico"
-                        data-servico="Higienização Interna"
-                        data-duracao="120"
-                    >
-
-                        <div>
-                            <strong>
-                                Higienização Interna
-                            </strong>
-
-                            <p>
-                                Limpeza profunda de bancos, carpetes e interior.
-                            </p>
-                        </div>
-
-                        <span>
-                            2 horas
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        class="opcao-servico"
-                        data-servico="Polimento"
-                        data-duracao="240"
-                    >
-
-                        <div>
-                            <strong>
-                                Polimento
-                            </strong>
-
-                            <p>
-                                Correção de pintura e recuperação do brilho.
-                            </p>
-                        </div>
-
-                        <span>
-                            4 horas
-                        </span>
-
-                    </button>
+                    <p>
+                        Escolha os serviços desejados para continuar.
+                    </p>
 
                 </div>
 
 
-                <button
-                    id="btnContinuarServico"
-                    class="btn-continuar"
-                    disabled
-                >
-                    Continuar
-                </button>
+                <!-- PROGRESSO -->
 
-            </div>
+                <div class="agendamento-progresso">
 
+                    <div class="progresso-item ativo">
 
-            <!-- ETAPA 2 -->
-            <div
-                id="etapaData"
-                class="etapa-agendamento"
-            >
+                        <span>
+                            1
+                        </span>
 
-                <button
-                    id="btnVoltarServico"
-                    class="btn-voltar"
-                >
-                    ← Voltar
-                </button>
+                        <p>
+                            Serviço
+                        </p>
 
-                <h3>
-                    Escolha uma data
-                </h3>
-
-                <p class="etapa-descricao">
-                    Escolha uma das datas disponíveis para continuar.
-                </p>
-
-
-                <div class="campo-data">
-
-                    <label>
-                        Data do atendimento
-                    </label>
-
-                    <div
-                        id="listaDatas"
-                        class="lista-datas"
-                    >
                     </div>
 
-                    <input
-                        type="hidden"
-                        id="dataAgendamento"
+
+                    <div class="progresso-linha"></div>
+
+
+                    <div class="progresso-item">
+
+                        <span>
+                            2
+                        </span>
+
+                        <p>
+                            Data
+                        </p>
+
+                    </div>
+
+
+                    <div class="progresso-linha"></div>
+
+
+                    <div class="progresso-item">
+
+                        <span>
+                            3
+                        </span>
+
+                        <p>
+                            Horário
+                        </p>
+
+                    </div>
+
+
+                    <div class="progresso-linha"></div>
+
+
+                    <div class="progresso-item">
+
+                        <span>
+                            4
+                        </span>
+
+                        <p>
+                            Dados
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     CAIXA PRINCIPAL
+                ========================== -->
+
+                <div class="agendamento-box">
+
+
+                    <!-- =========================
+                         ETAPA 1 - SERVIÇOS
+                    ========================== -->
+
+                    <div
+                        id="etapaServico"
+                        class="etapa-agendamento ativa"
                     >
 
+                        <h3>
+                            Quais serviços você deseja?
+                        </h3>
+
+
+                        <div class="opcoes-servico">
+
+
+                            <!-- LAVAGEM -->
+
+                            <button
+                                type="button"
+                                class="opcao-servico"
+                                data-servico="Lavagem Premium"
+                                data-duracao="60"
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        Lavagem Premium
+                                    </strong>
+
+                                    <p>
+                                        Lavagem externa detalhada
+                                        e acabamento premium.
+                                    </p>
+
+                                </div>
+
+                                <span>
+                                    60 min
+                                </span>
+
+                            </button>
+
+
+                            <!-- HIGIENIZAÇÃO -->
+
+                            <button
+                                type="button"
+                                class="opcao-servico"
+                                data-servico="Higienização Interna"
+                                data-duracao="120"
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        Higienização Interna
+                                    </strong>
+
+                                    <p>
+                                        Limpeza profunda de bancos,
+                                        carpetes e interior.
+                                    </p>
+
+                                </div>
+
+                                <span>
+                                    2 horas
+                                </span>
+
+                            </button>
+
+
+                            <!-- POLIMENTO -->
+
+                            <button
+                                type="button"
+                                class="opcao-servico"
+                                data-servico="Polimento"
+                                data-duracao="240"
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        Polimento
+                                    </strong>
+
+                                    <p>
+                                        Correção de pintura
+                                        e recuperação do brilho.
+                                    </p>
+
+                                </div>
+
+                                <span>
+                                    4 horas
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="btnContinuarServico"
+                            class="btn-continuar"
+                            disabled
+                        >
+                            Continuar
+                        </button>
+
+                    </div>
+
+
+                    <!-- =========================
+                         ETAPA 2 - DATA
+                    ========================== -->
+
+                    <div
+                        id="etapaData"
+                        class="etapa-agendamento"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnVoltarServico"
+                            class="btn-voltar"
+                        >
+                            ← Voltar
+                        </button>
+
+
+                        <h3>
+                            Escolha uma data
+                        </h3>
+
+
+                        <p class="etapa-descricao">
+                            Escolha uma das datas disponíveis
+                            para continuar.
+                        </p>
+
+
+                        <div class="campo-data">
+
+                            <label>
+                                Data do atendimento
+                            </label>
+
+
+                            <div
+                                id="listaDatas"
+                                class="lista-datas"
+                            >
+                            </div>
+
+
+                            <input
+                                type="hidden"
+                                id="dataAgendamento"
+                            >
+
+                        </div>
+
+
+                        <div class="resumo-agendamento">
+
+                            <span>
+                                Serviços selecionados
+                            </span>
+
+                            <strong id="resumoServico">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="btnContinuarData"
+                            class="btn-continuar"
+                            disabled
+                        >
+                            Escolher horário
+                        </button>
+
+                    </div>
+
+
+                    <!-- =========================
+                         ETAPA 3 - HORÁRIO
+                    ========================== -->
+
+                    <div
+                        id="etapaHorario"
+                        class="etapa-agendamento"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnVoltarData"
+                            class="btn-voltar"
+                        >
+                            ← Voltar
+                        </button>
+
+
+                        <h3>
+                            Escolha um horário
+                        </h3>
+
+
+                        <p class="etapa-descricao">
+                            Selecione um dos horários disponíveis.
+                        </p>
+
+
+                        <div
+                            id="listaHorarios"
+                            class="lista-horarios"
+                        >
+                        </div>
+
+
+                        <div class="resumo-agendamento">
+
+                            <span>
+                                Serviços selecionados
+                            </span>
+
+                            <strong id="resumoServicosHorario">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="btnContinuarHorario"
+                            class="btn-continuar"
+                            disabled
+                        >
+                            Continuar
+                        </button>
+
+                    </div>
+
+
+                    <!-- =========================
+                         ETAPA 4 - DADOS
+                    ========================== -->
+
+                    <div
+                        id="etapaDados"
+                        class="etapa-agendamento"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnVoltarHorario"
+                            class="btn-voltar"
+                        >
+                            ← Voltar
+                        </button>
+
+
+                        <h3>
+                            Seus dados
+                        </h3>
+
+
+                        <p class="etapa-descricao">
+                            Preencha seus dados para confirmar
+                            o agendamento.
+                        </p>
+
+
+                        <!-- FORMULÁRIO -->
+
+                        <div class="form-agendamento">
+
+
+                            <!-- NOME -->
+
+                            <div class="campo-form">
+
+                                <label for="nomeCliente">
+                                    Nome
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nomeCliente"
+                                    placeholder="Seu nome"
+                                    autocomplete="name"
+                                >
+
+                            </div>
+
+
+                            <!-- WHATSAPP -->
+
+                            <div class="campo-form">
+
+                                <label for="telefoneCliente">
+                                    WhatsApp
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="telefoneCliente"
+                                    placeholder="(21) 99999-9999"
+                                    autocomplete="tel"
+                                >
+
+                            </div>
+
+
+                            <!-- VEÍCULO -->
+
+                            <div class="campo-form">
+
+                                <label for="modeloVeiculo">
+                                    Veículo
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="modeloVeiculo"
+                                    placeholder="Ex: Honda Civic"
+                                >
+
+                            </div>
+
+
+                            <!-- COR -->
+
+                            <div class="campo-form">
+
+                                <label for="corVeiculo">
+                                    Cor
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="corVeiculo"
+                                    placeholder="Ex: Preto"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RESUMO FINAL -->
+
+                        <div class="resumo-final">
+
+                            <h4>
+                                Resumo do agendamento
+                            </h4>
+
+
+                            <div class="resumo-linha">
+
+                                <span>
+                                    Serviços
+                                </span>
+
+                                <strong id="resumoFinalServicos">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resumo-linha">
+
+                                <span>
+                                    Data
+                                </span>
+
+                                <strong id="resumoFinalData">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resumo-linha">
+
+                                <span>
+                                    Horário
+                                </span>
+
+                                <strong id="resumoFinalHorario">
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="btnConfirmarAgendamento"
+                            class="btn-continuar"
+                            disabled
+                        >
+                            Confirmar agendamento
+                        </button>
+
+                    </div>
+
+                    <!-- FIM ETAPA 4 -->
+
+
                 </div>
 
+                <!-- FIM agendamento-box -->
 
-                <div class="resumo-agendamento">
-
-                    <span>
-                        Serviços selecionados
-                    </span>
-
-                    <strong id="resumoServico">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <button
-                    id="btnContinuarData"
-                    class="btn-continuar"
-                    disabled
-                >
-                    Escolher horário
-                </button>
 
             </div>
 
+            <!-- FIM container -->
 
-            <!-- ETAPA 3 -->
-            <div
-                id="etapaHorario"
-                class="etapa-agendamento"
-            >
+        </section>
 
-                <button
-                    id="btnVoltarData"
-                    class="btn-voltar"
-                >
-                    ← Voltar
-                </button>
-
-                <h3>
-                    Escolha um horário
-                </h3>
-
-                <p class="etapa-descricao">
-                    Selecione um dos horários disponíveis.
-                </p>
+        <!-- FIM AGENDAMENTO -->
 
 
-                <div
-                    id="listaHorarios"
-                    class="lista-horarios"
-                >
-                </div>
-
-
-                <div class="resumo-agendamento">
-
-                    <span>
-                        Serviços selecionados
-                    </span>
-
-                    <strong id="resumoServicosHorario">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <button
-                    id="btnContinuarHorario"
-                    class="btn-continuar"
-                    disabled
-                >
-                    Continuar
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-    <!-- ETAPA 4 -->
-<div id="etapaDados" class="etapa-agendamento">
-
-    <button
-        id="btnVoltarHorario"
-        class="btn-voltar"
-    >
-        ← Voltar
-    </button>
-
-    <h3>
-        Seus dados
-    </h3>
-
-    <p class="etapa-descricao">
-        Preencha seus dados para confirmar o agendamento.
-    </p>
-
-    <div class="form-agendamento">
-
-        <div class="campo-form">
-            <label for="nomeCliente">Nome</label>
-
-            <input
-                type="text"
-                id="nomeCliente"
-                placeholder="Seu nome"
-            >
-        </div>
-
-        <div class="campo-form">
-            <label for="telefoneCliente">WhatsApp</label>
-
-            <input
-                type="tel"
-                id="telefoneCliente"
-                placeholder="(21) 99999-9999"
-            >
-        </div>
-
-        <div class="campo-form">
-            <label for="modeloVeiculo">Veículo</label>
-
-            <input
-                type="text"
-                id="modeloVeiculo"
-                placeholder="Ex: Honda Civic"
-            >
-        </div>
-        <div class="campo-form">
-    <label for="corVeiculo">Cor</label>
-
-    <input
-        type="text"
-        id="corVeiculo"
-        placeholder="Ex: Preto"
-    >
-</div>
-
-    
-
-    </div>
-
-    <div class="resumo-final">
-
-        <h4>
-            Resumo do agendamento
-        </h4>
-
-        <div class="resumo-linha">
-            <span>Serviços</span>
-            <strong id="resumoFinalServicos">-</strong>
-        </div>
-
-        <div class="resumo-linha">
-            <span>Data</span>
-            <strong id="resumoFinalData">-</strong>
-        </div>
-
-        <div class="resumo-linha">
-            <span>Horário</span>
-            <strong id="resumoFinalHorario">-</strong>
-        </div>
-
-    </div>
-
-    <button
-        id="btnConfirmarAgendamento"
-        class="btn-continuar"
-        disabled
-    >
-        Confirmar agendamento
-    </button>
-
-</div>
-
-</section>
     </main>
+
+
+    <!-- JAVASCRIPT -->
 
     <script src="./js/main.js"></script>
 
