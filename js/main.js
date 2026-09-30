@@ -1,3 +1,15 @@
+const SUPABASE_URL =
+    "https://ejgulzbdlecqcyitjffk.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_gBHh_D1RNukjLyAmvZ1Aow_zXlHayCW";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
 const opcoesServico = document.querySelectorAll(".opcao-servico");
 
 const btnContinuarServico =
@@ -437,3 +449,23 @@ function validarFormulario() {
     btnConfirmarAgendamento.disabled =
         !formularioValido;
 }
+
+async function testarSupabase() {
+
+    const { data, error } =
+        await supabaseClient
+            .from("servicos")
+            .select("*");
+
+    if (error) {
+        console.error("Erro Supabase:", error);
+        return;
+    }
+
+    console.log(
+        "Serviços vindos do Supabase:",
+        data
+    );
+}
+
+testarSupabase();

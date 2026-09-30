@@ -376,9 +376,80 @@ body {
     cursor: not-allowed;
 }
 
+/* =========================
+   HORÁRIOS
+========================= */
+
+.lista-horarios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+.horario-card {
+    width: 100%;
+
+    padding: 18px 14px;
+
+    color: var(--branco);
+    background-color: #1d1d1d;
+
+    border: 1px solid #303030;
+    border-radius: 10px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.horario-card:hover {
+    border-color: #666;
+    background-color: #242424;
+
+    transform: translateY(-2px);
+}
+
+.horario-card.selecionado {
+    color: var(--dourado);
+    background-color: #201d13;
+
+    border-color: var(--dourado);
+
+    box-shadow: 0 0 0 1px var(--dourado);
+}
+
+.horario-card.indisponivel {
+    color: #666;
+    background-color: #161616;
+
+    border-color: #252525;
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    text-decoration: line-through;
+}
+
+.horario-card:focus {
+    outline: none;
+}
+
 /* MOBILE */
 
 @media (max-width: 768px) {
+
+    .lista-horarios {
+    grid-template-columns: repeat(2, 1fr);
+}
 
     .form-agendamento {
     grid-template-columns: 1fr;
