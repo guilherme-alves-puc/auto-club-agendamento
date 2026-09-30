@@ -80,7 +80,10 @@ const resumoFinalData =
 const resumoFinalHorario =
     document.querySelector("#resumoFinalHorario");
 
-    const corVeiculo =
+const resumoFinalValor =
+    document.querySelector("#resumoFinalValor");
+
+const corVeiculo =
     document.querySelector("#corVeiculo");
 
 
@@ -95,6 +98,7 @@ let horarioSelecionado = null
 
 let servicosSelecionados = [];
 let duracaoTotal = 0;
+let valorTotal = 0;
 
 async function carregarServicos() {
 
@@ -141,6 +145,9 @@ async function carregarServicos() {
         botao.dataset.duracao =
             servico.duracao_minutos;
 
+            botao.dataset.preco =
+    servico.preco;
+
         const precoFormatado =
     Number(servico.preco).toLocaleString(
         "pt-BR",
@@ -152,17 +159,25 @@ async function carregarServicos() {
 
 botao.innerHTML = `
     <div class="servico-info">
-        <strong>${servico.nome}</strong>
 
-        <p>${servico.descricao ?? ""}</p>
+        <strong>
+            ${servico.nome}
+        </strong>
+
+        <p>
+            ${servico.descricao ?? ""}
+        </p>
 
         <span class="servico-preco">
             ${precoFormatado}
         </span>
+
     </div>
 
     <span class="servico-duracao">
-        ${formatarDuracao(servico.duracao_minutos)}
+        ${formatarDuracao(
+            servico.duracao_minutos
+        )}
     </span>
 `;
 
@@ -217,6 +232,7 @@ function atualizarServicosSelecionados() {
     servicosSelecionados = [];
 
     duracaoTotal = 0;
+    valorTotal = 0;
 
     selecionados.forEach((opcao) => {
 
@@ -226,8 +242,12 @@ function atualizarServicosSelecionados() {
 
         duracaoTotal +=
             Number(opcao.dataset.duracao);
+            
+            valorTotal +=
+    Number(opcao.dataset.preco);
 
     });
+    
 
     btnContinuarServico.disabled =
         servicosSelecionados.length === 0;
@@ -726,24 +746,47 @@ btnVoltarData.addEventListener("click", () => {
 
 });
 
-btnContinuarHorario.addEventListener("click", () => {
+btnContinuarHorario.addEventListener(
+    "click",
+    () => {
 
-    etapaHorario.classList.remove("ativa");
+        etapaHorario.classList.remove(
+            "ativa"
+        );
 
-    etapaDados.classList.add("ativa");
+        etapaDados.classList.add(
+            "ativa"
+        );
 
-    resumoFinalServicos.textContent =
-        servicosSelecionados.join(" + ");
 
-    resumoFinalData.textContent =
-        formatarData(dataSelecionada);
+        resumoFinalServicos.textContent =
+            servicosSelecionados.join(" + ");
 
-    resumoFinalHorario.textContent =
-        horarioSelecionado;
 
-    atualizarProgresso(4);
+        resumoFinalData.textContent =
+            formatarData(
+                dataSelecionada
+            );
 
-});
+
+        resumoFinalHorario.textContent =
+            horarioSelecionado;
+
+
+        resumoFinalValor.textContent =
+            valorTotal.toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            );
+
+
+        atualizarProgresso(4);
+
+    }
+);
 
 function formatarData(data) {
 

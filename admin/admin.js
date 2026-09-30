@@ -107,6 +107,8 @@ const btnLogout =
     document.querySelector("#btnLogout");
 
 
+let filtroAgendaAtual = "hoje";
+
 if (btnLogout) {
 
     iniciarPainel();
@@ -197,39 +199,111 @@ async function carregarAgendamentosHoje() {
             "#dataHoje"
         );
 
+    const tituloAgenda =
+        document.querySelector(
+            "#tituloAgenda"
+        );
+
 
     const hoje =
         new Date();
 
-
-    const ano =
-        hoje.getFullYear();
-
-    const mes =
-        String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
-
-    const dia =
-        String(
-            hoje.getDate()
-        ).padStart(2, "0");
+    hoje.setHours(0, 0, 0, 0);
 
 
-    const dataHoje =
-        `${ano}-${mes}-${dia}`;
+    let dataInicio =
+        new Date(hoje);
+
+    let dataFim =
+        new Date(hoje);
 
 
-    dataHojeElemento.textContent =
-        hoje.toLocaleDateString(
-            "pt-BR",
-            {
-                weekday: "long",
-                day: "2-digit",
-                month: "long"
-            }
+    /* =========================
+       FILTROS
+    ========================= */
+
+    if (
+        filtroAgendaAtual === "hoje"
+    ) {
+
+        tituloAgenda.textContent =
+            "Agendamentos de hoje";
+
+        dataHojeElemento.textContent =
+            hoje.toLocaleDateString(
+                "pt-BR",
+                {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "long"
+                }
+            );
+
+    }
+
+
+    if (
+        filtroAgendaAtual === "amanha"
+    ) {
+
+        dataInicio.setDate(
+            hoje.getDate() + 1
         );
 
+        dataFim =
+            new Date(dataInicio);
+
+        tituloAgenda.textContent =
+            "Agendamentos de amanhã";
+
+        dataHojeElemento.textContent =
+            dataInicio.toLocaleDateString(
+                "pt-BR",
+                {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "long"
+                }
+            );
+
+    }
+
+
+    if (
+        filtroAgendaAtual === "7dias"
+    ) {
+
+        dataFim.setDate(
+            hoje.getDate() + 6
+        );
+
+        tituloAgenda.textContent =
+            "Próximos 7 dias";
+
+        dataHojeElemento.textContent =
+            `${formatarDataAdmin(
+                dataInicio
+            )} até ${formatarDataAdmin(
+                dataFim
+            )}`;
+
+    }
+
+
+    const inicioFormatado =
+        formatarDataBanco(
+            dataInicio
+        );
+
+    const fimFormatado =
+        formatarDataBanco(
+            dataFim
+        );
+
+
+    /* =========================
+       BUSCAR AGENDAMENTOS
+    ========================= */
 
     const {
         data: agendamentos,
@@ -244,13 +318,24 @@ async function carregarAgendamentosHoje() {
                 veiculo,
                 cor,
                 servicos,
+                data,
                 horario,
                 duracao_total,
                 status
             `)
-            .eq(
+            .gte(
                 "data",
-                dataHoje
+                inicioFormatado
+            )
+            .lte(
+                "data",
+                fimFormatado
+            )
+            .order(
+                "data",
+                {
+                    ascending: true
+                }
             )
             .order(
                 "horario",
@@ -268,12 +353,7 @@ async function carregarAgendamentosHoje() {
         );
 
         listaAgendamentos.innerHTML =
-            `
-                <p>
-                    Não foi possível carregar
-                    os agendamentos.
-                </p>
-            `;
+            "<p>Não foi possível carregar os agendamentos.</p>";
 
         return;
 
@@ -293,11 +373,11 @@ async function carregarAgendamentosHoje() {
                 <div class="sem-agendamentos">
 
                     <strong>
-                        Nenhum agendamento hoje
+                        Nenhum agendamento
                     </strong>
 
                     <p>
-                        A agenda está livre por enquanto.
+                        Não há agendamentos neste período.
                     </p>
 
                 </div>
@@ -307,6 +387,57 @@ async function carregarAgendamentosHoje() {
 
     }
 
+
+    /* =========================
+       BUSCAR SERVIÇOS
+       PARA CALCULAR PREÇOS
+    ========================= */
+
+    const {
+        data: servicos,
+        error: erroServicos
+    } =
+        await supabaseClient
+            .from("servicos")
+            .select(
+                "nome, preco"
+            );
+
+
+    if (erroServicos) {
+
+        console.error(
+            "Erro ao carregar preços:",
+            erroServicos
+        );
+
+    }
+
+
+    const mapaPrecos = {};
+
+
+    if (servicos) {
+
+        servicos.forEach(
+            (servico) => {
+
+                mapaPrecos[
+                    servico.nome
+                ] =
+                    Number(
+                        servico.preco
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       RENDERIZAR CARDS
+    ========================= */
 
     listaAgendamentos.innerHTML = "";
 
@@ -330,12 +461,45 @@ async function carregarAgendamentosHoje() {
                     .slice(0, 5);
 
 
-            const servicos =
+            const servicosTexto =
                 agendamento.servicos
                     .join(" + ");
 
 
+            let valorAgendamento = 0;
+
+
+            agendamento.servicos.forEach(
+                (nomeServico) => {
+
+                    valorAgendamento +=
+                        mapaPrecos[
+                            nomeServico
+                        ] || 0;
+
+                }
+            );
+
+
+            const valorFormatado =
+                valorAgendamento
+                    .toLocaleString(
+                        "pt-BR",
+                        {
+                            style: "currency",
+                            currency: "BRL"
+                        }
+                    );
+
+
+            const dataFormatada =
+                formatarDataTexto(
+                    agendamento.data
+                );
+
+
             card.innerHTML = `
+
                 <div class="agendamento-horario">
 
                     <strong>
@@ -348,6 +512,16 @@ async function carregarAgendamentosHoje() {
                         )}
                     </span>
 
+                    ${
+                        filtroAgendaAtual === "7dias"
+                            ? `
+                                <span>
+                                    ${dataFormatada}
+                                </span>
+                            `
+                            : ""
+                    }
+
                 </div>
 
 
@@ -358,8 +532,9 @@ async function carregarAgendamentosHoje() {
                     </h3>
 
                     <p>
-                        ${servicos}
+                        ${servicosTexto}
                     </p>
+
 
                     <div class="agendamento-detalhes">
 
@@ -374,45 +549,51 @@ async function carregarAgendamentosHoje() {
 
                     </div>
 
+
+                    <div class="agendamento-valor">
+                        ${valorFormatado}
+                    </div>
+
                 </div>
 
 
                 <div class="agendamento-acoes">
 
-    <span
-        class="status status-${agendamento.status}"
-    >
-        ${agendamento.status}
-    </span>
-
-
-    ${
-        agendamento.status === "confirmado"
-            ? `
-                <div class="botoes-agendamento">
-
-                    <button
-                        type="button"
-                        class="btn-concluir"
-                        data-id="${agendamento.id}"
+                    <span
+                        class="status status-${agendamento.status}"
                     >
-                        Concluir
-                    </button>
+                        ${agendamento.status}
+                    </span>
 
-                    <button
-                        type="button"
-                        class="btn-cancelar"
-                        data-id="${agendamento.id}"
-                    >
-                        Cancelar
-                    </button>
+
+                    ${
+                        agendamento.status === "confirmado"
+                            ? `
+                                <div class="botoes-agendamento">
+
+                                    <button
+                                        type="button"
+                                        class="btn-concluir"
+                                        data-id="${agendamento.id}"
+                                    >
+                                        Concluir
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn-cancelar"
+                                        data-id="${agendamento.id}"
+                                    >
+                                        Cancelar
+                                    </button>
+
+                                </div>
+                            `
+                            : ""
+                    }
 
                 </div>
-            `
-            : ""
-    }
 
-</div>
             `;
 
 
@@ -424,7 +605,94 @@ async function carregarAgendamentosHoje() {
     );
 
 }
+function formatarDataBanco(data) {
 
+    const ano =
+        data.getFullYear();
+
+    const mes =
+        String(
+            data.getMonth() + 1
+        ).padStart(2, "0");
+
+    const dia =
+        String(
+            data.getDate()
+        ).padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}`;
+
+}
+
+
+function formatarDataAdmin(data) {
+
+    return data.toLocaleDateString(
+        "pt-BR",
+        {
+            day: "2-digit",
+            month: "2-digit"
+        }
+    );
+
+}
+
+
+function formatarDataTexto(data) {
+
+    const partes =
+        data.split("-");
+
+    return (
+        `${partes[2]}/` +
+        `${partes[1]}/` +
+        `${partes[0]}`
+    );
+
+}
+
+document
+    .querySelectorAll(
+        ".filtro-agenda"
+    )
+    .forEach(
+        (botao) => {
+
+            botao.addEventListener(
+                "click",
+                async () => {
+
+                    document
+                        .querySelectorAll(
+                            ".filtro-agenda"
+                        )
+                        .forEach(
+                            (item) => {
+
+                                item.classList.remove(
+                                    "ativo"
+                                );
+
+                            }
+                        );
+
+
+                    botao.classList.add(
+                        "ativo"
+                    );
+
+
+                    filtroAgendaAtual =
+                        botao.dataset.filtro;
+
+
+                    await carregarAgendamentosHoje();
+
+                }
+            );
+
+        }
+    );
 
 function formatarDuracaoAdmin(minutos) {
 
@@ -819,6 +1087,7 @@ if (formServico) {
 
 
             let error;
+
 
 
             /* EDITAR */

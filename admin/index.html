@@ -37,20 +37,51 @@
 
         <div class="admin-card-header">
 
-            <div>
-                <h2>Agendamentos de hoje</h2>
+    <div>
+        <h2 id="tituloAgenda">
+            Agendamentos de hoje
+        </h2>
 
-                <p id="dataHoje"></p>
-            </div>
+        <p id="dataHoje"></p>
+    </div>
 
-            <span
-                id="totalAgendamentos"
-                class="contador-agendamentos"
-            >
-                0
-            </span>
+    <span
+        id="totalAgendamentos"
+        class="contador-agendamentos"
+    >
+        0
+    </span>
 
-        </div>
+</div>
+
+
+<div class="filtros-agenda">
+
+    <button
+        type="button"
+        class="filtro-agenda ativo"
+        data-filtro="hoje"
+    >
+        Hoje
+    </button>
+
+    <button
+        type="button"
+        class="filtro-agenda"
+        data-filtro="amanha"
+    >
+        Amanhã
+    </button>
+
+    <button
+        type="button"
+        class="filtro-agenda"
+        data-filtro="7dias"
+    >
+        Próximos 7 dias
+    </button>
+
+</div>
 
 
         <div
