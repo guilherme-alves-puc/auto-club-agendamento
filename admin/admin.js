@@ -571,23 +571,35 @@ async function carregarAgendamentosHoje() {
                             ? `
                                 <div class="botoes-agendamento">
 
-                                    <button
-                                        type="button"
-                                        class="btn-concluir"
-                                        data-id="${agendamento.id}"
-                                    >
-                                        Concluir
-                                    </button>
+    <button
+        type="button"
+        class="btn-whatsapp"
+        data-telefone="${agendamento.telefone}"
+        data-nome="${agendamento.nome}"
+        data-data="${agendamento.data}"
+        data-horario="${horario}"
+        data-servicos="${servicosTexto}"
+    >
+        WhatsApp
+    </button>
 
-                                    <button
-                                        type="button"
-                                        class="btn-cancelar"
-                                        data-id="${agendamento.id}"
-                                    >
-                                        Cancelar
-                                    </button>
+    <button
+        type="button"
+        class="btn-concluir"
+        data-id="${agendamento.id}"
+    >
+        Concluir
+    </button>
 
-                                </div>
+    <button
+        type="button"
+        class="btn-cancelar"
+        data-id="${agendamento.id}"
+    >
+        Cancelar
+    </button>
+
+</div>
                             `
                             : ""
                     }
@@ -745,8 +757,18 @@ if (listaAgendamentosAdmin) {
                 event.target.closest(
                     ".btn-cancelar"
                 );
+            const botaoWhatsapp =
+                event.target.closest(".btn-whatsapp");    
 
 
+            if (botaoWhatsapp) {
+
+                abrirWhatsappAgendamento(
+                    botaoWhatsapp
+    );
+
+    return;
+}
             if (botaoConcluir) {
 
                 const id =
@@ -783,6 +805,82 @@ if (listaAgendamentosAdmin) {
             }
 
         }
+    );
+
+}
+function abrirWhatsappAgendamento(botao) {
+
+    let telefone =
+        botao.dataset.telefone || "";
+
+    const nome =
+        botao.dataset.nome || "";
+
+    const data =
+        botao.dataset.data || "";
+
+    const horario =
+        botao.dataset.horario || "";
+
+    const servicos =
+        botao.dataset.servicos || "";
+
+
+    /* Remove tudo que não for número */
+
+    telefone =
+        telefone.replace(/\D/g, "");
+
+
+    /*
+        Se for número brasileiro e ainda
+        não tiver DDI, adiciona 55.
+    */
+
+    if (
+        telefone.length === 10 ||
+        telefone.length === 11
+    ) {
+
+        telefone =
+            `55${telefone}`;
+
+    }
+
+
+    const dataFormatada =
+        formatarDataTexto(
+            data
+        );
+
+
+    const mensagem =
+        `Olá, ${nome}! 👋
+
+Aqui é da Auto Club Estética Automotiva.
+
+Estamos entrando em contato sobre seu agendamento:
+
+🚗 Serviço: ${servicos}
+📅 Data: ${dataFormatada}
+🕐 Horário: ${horario}
+
+Podemos confirmar seu atendimento?`;
+
+
+    const mensagemCodificada =
+        encodeURIComponent(
+            mensagem
+        );
+
+
+    const url =
+        `https://wa.me/${telefone}?text=${mensagemCodificada}`;
+
+
+    window.open(
+        url,
+        "_blank"
     );
 
 }
