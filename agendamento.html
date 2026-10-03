@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Seu Agendamento | Auto Club
+    </title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="./css/reset.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="cliente-agendamento">
+
+
+        <section class="cliente-card">
+
+
+            <span class="cliente-subtitulo">
+                AUTO CLUB
+            </span>
+
+
+            <h1>
+                Seu agendamento
+            </h1>
+
+
+            <p class="cliente-descricao">
+                Confira os detalhes do seu atendimento.
+            </p>
+
+
+            <div
+                id="carregandoAgendamento"
+                class="cliente-carregando"
+            >
+                Carregando agendamento...
+            </div>
+
+
+            <div
+                id="dadosAgendamentoCliente"
+                class="cliente-dados oculto"
+            >
+
+
+                <div class="cliente-status">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong id="clienteStatus">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha">
+
+                    <span>
+                        Cliente
+                    </span>
+
+                    <strong id="clienteNome">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha">
+
+                    <span>
+                        Serviços
+                    </span>
+
+                    <strong id="clienteServicos">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha">
+
+                    <span>
+                        Data
+                    </span>
+
+                    <strong id="clienteData">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha">
+
+                    <span>
+                        Horário
+                    </span>
+
+                    <strong id="clienteHorario">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha">
+
+                    <span>
+                        Veículo
+                    </span>
+
+                    <strong id="clienteVeiculo">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="cliente-linha cliente-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="clienteValor">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnWhatsappCliente"
+                    class="btn-whatsapp-cliente"
+                >
+                    Confirmar atendimento pelo WhatsApp
+                </button>
+
+
+                <p class="cliente-aviso">
+
+                    Guarde este link para consultar
+                    seu agendamento novamente.
+
+                </p>
+
+
+            </div>
+
+
+            <div
+                id="agendamentoNaoEncontrado"
+                class="cliente-erro oculto"
+            >
+
+                Não foi possível localizar este agendamento.
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script
+        src="./js/agendamento.js"
+    ></script>
+
+
+</body>
+
+</html>

@@ -937,19 +937,55 @@ btnConfirmarAgendamento.addEventListener(
         ========================= */
 
         console.log(
-            "Agendamento criado:",
-            agendamentoCriado
-        );
+    "Agendamento criado:",
+    agendamentoCriado
+);
 
-        alert(
-            "Agendamento confirmado com sucesso!"
-        );
 
-        btnConfirmarAgendamento.textContent =
-            "Agendamento confirmado ✓";
+/* =========================
+   BUSCAR TOKEN DO CLIENTE
+========================= */
 
-        btnConfirmarAgendamento.disabled =
-            true;
+const {
+    data: tokenCliente,
+    error: erroToken
+} =
+    await supabaseClient.rpc(
+        "obter_token_agendamento",
+        {
+            p_id:
+                agendamentoCriado
+        }
+    );
+
+
+if (erroToken) {
+
+    console.error(
+        "Erro ao buscar token:",
+        erroToken
+    );
+
+    alert(
+        "Agendamento confirmado com sucesso!"
+    );
+
+    btnConfirmarAgendamento.textContent =
+        "Agendamento confirmado ✓";
+
+    btnConfirmarAgendamento.disabled =
+        true;
+
+    return;
+}
+
+
+/* =========================
+   REDIRECIONAR CLIENTE
+========================= */
+
+window.location.href =
+    `./agendamento.html?token=${tokenCliente}`;
 
     }
 );
